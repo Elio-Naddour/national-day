@@ -5,7 +5,9 @@ import AppRoutes from './routers/routes';
 function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <div className="App">
+        <AppRoutes />
+      </div>
     </BrowserRouter>
   );
 }

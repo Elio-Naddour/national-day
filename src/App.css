@@ -1,4 +1,8 @@
+@import './public/fonts/font.css';
+
 .App {
+  /* font-family: 'Frutiger LT Arabic', sans-serif !important; */
+
   text-align: center;
 }
 

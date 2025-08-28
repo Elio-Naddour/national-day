@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { jsPDF } from "jspdf";
-import certificateBg from "../images/Screenshot 2025-08-27 210649.png";
+import certificateBg from "../public/images/DnaBg.jpeg";
 
 export function Certificate() {
   const [pdfUrl, setPdfUrl] = useState(null);
@@ -15,8 +15,8 @@ export function Certificate() {
       doc.addImage(img, "PNG", 0, 0, 210, 297);
 
       doc.setFontSize(22);
-      doc.setTextColor("#000000");
-      doc.text(`Awarded to: ${userName}`, 105, 150, { align: "center" });
+      doc.setTextColor("#FFF");
+      doc.text(`Awarded to: ${userName}`, 105, 150, { align: "center"});
       
       const blob = doc.output("blob");
       const url = URL.createObjectURL(blob);

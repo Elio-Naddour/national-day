@@ -1,4 +1,6 @@
+import { NavLink } from "react-router-dom";
+
 const HomePage = () => {
-    return(<div></div>)
+    return(<div><NavLink to="/QnA/elio">Home</NavLink></div>)
 }
 export default HomePage;
