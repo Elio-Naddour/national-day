@@ -1,23 +1,30 @@
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routers/routes';
-// Firebase setup (you'll need to install firebase: npm install firebase)
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
+import { getAnalytics } from "firebase/analytics";
+import { getStorage } from 'firebase/storage';
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Firebase configuration - replace with your own
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-project.firebaseapp.com",
+  apiKey: "AIzaSyAsW4bz5bSdvTugqTBChLrhXKdtTP5wHbU",
+  authDomain: "national-day-ba19f.firebaseapp.com",
   projectId: "national-day-ba19f",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "your-app-id"
+  storageBucket: "national-day-ba19f.firebasestorage.app",
+  messagingSenderId: "326397426375",
+  appId: "1:326397426375:web:fc7355c6060ddd9c6b1ce2",
+  measurementId: "G-TM49ZJPBS0"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);// Initialize Firebase
 export const storage = getStorage(app);
+console.log(analytics);
 
 function App() {
   return (

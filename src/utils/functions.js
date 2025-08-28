@@ -4,58 +4,89 @@ import { jsPDF } from "jspdf";
 import certificateBg from "../public/images/DnaBg.jpeg";
 import ArabicReshaper from 'arabic-reshaper';
 import { FrutigerLTArabic } from "./base64font";
+import { storage } from "../App";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export function Certificate() {
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const generatePdf = (userName) => {
+  const generatePdf = async (userName) => {
+    setLoading(true);
+    
     const doc = new jsPDF("p", "mm", "a4");
 
     doc.addFileToVFS("FrutigerLTArabic.ttf", FrutigerLTArabic);
     doc.addFont("FrutigerLTArabic.ttf", "FrutigerLTArabic", "normal");
     doc.setFont("FrutigerLTArabic", "normal");
 
-
     const img = new Image();
     img.src = certificateBg;
-    img.onload = () => {
+    
+    img.onload = async () => {
       doc.addImage(img, "PNG", 0, 0, 210, 297);
 
       doc.setFontSize(22);
       doc.setTextColor("#fff");
 
-      // 🔹 Arabic reshaping
+      // Arabic reshaping
       const raw = `مُنِحَت إلى: ${userName}`;
       const shaped = ArabicReshaper.convertArabic(raw);
 
-      // 🔹 Add text (centered)
+      // Add text (centered)
       doc.text(shaped, 105, 150, { align: "center" });
 
-      const blob = doc.output("blob");
-      const url = URL.createObjectURL(blob);
-      setPdfUrl(url);
-
-      doc.autoPrint()
-      doc.output("dataurlnewwindow")
-      doc.save("certificate.pdf");
+      // Generate PDF as blob
+      const pdfBlob = doc.output("blob");
+      
+      try {
+        // Upload to Firebase Storage
+        const storageRef = ref(storage, `certificates/certificate_${Date.now()}.pdf`);
+        const snapshot = await uploadBytes(storageRef, pdfBlob);
+        
+        // Get public URL
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        
+        // Set the public URL for QR code
+        setPdfUrl(downloadURL);
+        
+        // Open PDF in new window
+        window.open(downloadURL, '_blank');
+      } catch (error) {
+        console.error("Error uploading PDF:", error);
+        // Fallback: use local blob URL if upload fails
+        const localUrl = URL.createObjectURL(pdfBlob);
+        setPdfUrl(localUrl);
+        window.open(localUrl, '_blank');
+      } finally {
+        setLoading(false);
+      }
     };
   };
 
   return (
     <div style={{ textAlign: "center", marginTop: 40 }}>
-      <button onClick={() => generatePdf("إليو ندور")}>
-        Generate Certificate
+      <button 
+        onClick={() => generatePdf("إليو ندور")}
+        disabled={loading}
+      >
+        {loading ? "Generating..." : "Generate Certificate"}
       </button>
+      
       {pdfUrl && (
         <div style={{ marginTop: 20 }}>
           <h3>Scan QR to open on phone</h3>
           <QRCodeCanvas value={pdfUrl} size={200} />
+          <p style={{ marginTop: 10, fontSize: 14 }}>
+            <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+              Or click here to open
+            </a>
+          </p>
         </div>
       )}
     </div>
   );
 }
-
 
 
 // export function generatePdf(userName) {
