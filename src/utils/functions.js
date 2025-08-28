@@ -2,6 +2,8 @@ import { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { jsPDF } from "jspdf";
 import certificateBg from "../public/images/DnaBg.jpeg";
+import ArabicReshaper from 'arabic-reshaper';
+import { FrutigerLTArabic } from "./base64font";
 
 export function Certificate() {
   const [pdfUrl, setPdfUrl] = useState(null);
@@ -9,29 +11,41 @@ export function Certificate() {
   const generatePdf = (userName) => {
     const doc = new jsPDF("p", "mm", "a4");
 
+    doc.addFileToVFS("FrutigerLTArabic.ttf", FrutigerLTArabic);
+    doc.addFont("FrutigerLTArabic.ttf", "FrutigerLTArabic", "normal");
+    doc.setFont("FrutigerLTArabic", "normal");
+
+
     const img = new Image();
-    img.src = certificateBg; // use imported image
+    img.src = certificateBg;
     img.onload = () => {
       doc.addImage(img, "PNG", 0, 0, 210, 297);
 
       doc.setFontSize(22);
-      doc.setTextColor("#FFF");
-      doc.text(`Awarded to: ${userName}`, 105, 150, { align: "center"});
-      
+      doc.setTextColor("#fff");
+
+      // 🔹 Arabic reshaping
+      const raw = `مُنِحَت إلى: ${userName}`;
+      const shaped = ArabicReshaper.convertArabic(raw);
+
+      // 🔹 Add text (centered)
+      doc.text(shaped, 105, 150, { align: "center" });
+
       const blob = doc.output("blob");
       const url = URL.createObjectURL(blob);
       setPdfUrl(url);
-      
+
+      doc.autoPrint()
+      doc.output("dataurlnewwindow")
       doc.save("certificate.pdf");
     };
   };
 
   return (
     <div style={{ textAlign: "center", marginTop: 40 }}>
-      <button onClick={() => generatePdf("Elio Naddour")}>
+      <button onClick={() => generatePdf("إليو ندور")}>
         Generate Certificate
       </button>
-
       {pdfUrl && (
         <div style={{ marginTop: 20 }}>
           <h3>Scan QR to open on phone</h3>
@@ -41,6 +55,8 @@ export function Certificate() {
     </div>
   );
 }
+
+
 
 // export function generatePdf(userName) {
 //   const doc = new jsPDF("p", "mm", "a4");

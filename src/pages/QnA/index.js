@@ -15,7 +15,6 @@ const QnAPage = () => {
     return <div>
                 {name}
                 <Certificate />
-                {Certificate()}
                 <div lang="ar" style={{ fontFamily: "Frutiger LT Arabic", fontWeight: 700 }}>
                 مرحباً بالعالم
                 </div>
