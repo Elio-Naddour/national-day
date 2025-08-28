@@ -1,0 +1,68 @@
+@import '../../public/fonts/font.css';
+
+.container {
+  width: 70%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10%;
+}
+
+.guideline-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  width: 50%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.input-section {
+  margin-top: 40px;
+}
+
+.input-section h3 {
+  font-size: 1.5rem;
+  color: #006c35;
+  margin-bottom: 20px;
+}
+
+.name-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.name-input {
+  font-family: 'Frutiger LT Arabic', sans-serif !important;
+
+  padding: 15px;
+  border: 2px solid #006c35;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  text-align: center;
+  outline: none;
+  direction: rtl;
+}
+
+.submit-btn {
+  font-family: 'Frutiger LT Arabic', sans-serif !important;
+
+  padding: 15px;
+  background-color: #006c35;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #005128;
+}

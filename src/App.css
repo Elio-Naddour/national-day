@@ -1,7 +1,7 @@
 @import './public/fonts/font.css';
 
 .App {
-  /* font-family: 'Frutiger LT Arabic', sans-serif !important; */
+  font-family: 'Frutiger LT Arabic', sans-serif !important;
 
   text-align: center;
 }
@@ -39,4 +39,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+body {
+  background: linear-gradient(270deg, #00833e 0%, #008a4a 100%);
+  min-height: 100vh;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  color: #000;
+  direction: rtl;
+  width: 100%;
 }

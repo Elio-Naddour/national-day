@@ -1,0 +1,6 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(270deg, #00833e 0%, #008a4a 100%);
+}
