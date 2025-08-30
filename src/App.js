@@ -1,21 +1,20 @@
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routers/routes';
-// Firebase setup (you'll need to install firebase: npm install firebase)
+
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
-// Firebase configuration - replace with your own
 const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-project.firebaseapp.com",
+  apiKey: "AIzaSyAsW4bz5bSdvTugqTBChLrhXKdtTP5wHbU",
+  authDomain: "national-day-ba19f.firebaseapp.com",
   projectId: "national-day-ba19f",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "your-app-id"
+  storageBucket: "national-day-ba19f.firebasestorage.app",
+  messagingSenderId: "326397426375",
+  appId: "1:326397426375:web:fc7355c6060ddd9c6b1ce2",
+  measurementId: "G-TM49ZJPBS0"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
 
@@ -30,3 +29,6 @@ function App() {
 }
 
 export default App;
+// gsutil cors set cors.json gs://national-day-ba19f.appspot.com 
+// gcloud init
+// need more setup
