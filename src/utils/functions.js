@@ -49,7 +49,7 @@ export function Certificate() {
 
       // Get public download link
       const { data } = supabase.storage
-        .from("pdfs")
+        .from("NDpdf")
         .getPublicUrl(filePath);
 
       setPdfUrl(data.publicUrl);
