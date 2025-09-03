@@ -36,10 +36,13 @@ export function Certificate() {
 
       // Upload to Supabase Storage
       const filePath = `${uuidv4()}.pdf`;
-      const { error } = await supabase.storage
-        .from("NDpdf") // ✅ make sure your bucket is named "pdfs"
-        .upload(filePath, blob, {
+      const pdfBlob = new Blob([doc.output("arraybuffer")], { type: "application/pdf" });
+
+      const { error, data: uploadRes } = await supabase.storage
+        .from("NDpdf")
+        .upload(`${uuidv4()}.pdf`, pdfBlob, {
           contentType: "application/pdf",
+          upsert: true,
         });
 
       if (error) {
@@ -50,9 +53,13 @@ export function Certificate() {
       // Get public download link
       const { data } = supabase.storage
         .from("NDpdf")
-        .getPublicUrl(filePath);
+        .getPublicUrl(uploadRes.path);
 
       setPdfUrl(data.publicUrl);
+
+      // doc.autoPrint()
+      // doc.output("dataurlnewwindow") // open the pdf in new tab and print
+      // doc.save("certificate.pdf"); // download the pdf
     };
   };
 
