@@ -25,7 +25,7 @@
 }
 
 .input-section h3 {
-  font-size: 1.5rem;
+  font-size: 40px;
   color: #006c35;
   margin-bottom: 20px;
 }
@@ -44,7 +44,7 @@
   padding: 15px;
   border: 2px solid #006c35;
   border-radius: 8px;
-  font-size: 1.2rem;
+  font-size: 30px;
   text-align: center;
   outline: none;
   direction: rtl;
@@ -57,8 +57,8 @@
   background-color: #006c35;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1.2rem;
+  border-radius: 12px;
+  font-size: 30px;
   cursor: pointer;
   transition: background-color 0.3s;
 }

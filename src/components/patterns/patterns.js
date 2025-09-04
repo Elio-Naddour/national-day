@@ -1,6 +1,6 @@
 import React from "react";
 
-const Pattern = () => {
+export const ClusterPattern = () => {
   // Wider trapezoid with optional rotation
   const Trapezoid = ({ x, y, flipped = false }) => (
     <g transform={`translate(${x}, ${y}) ${flipped ? "rotate(180 30 25)" : ""}`}>
@@ -88,4 +88,66 @@ const Pattern = () => {
   );
 };
 
-export default Pattern;
+export const TetrisPattern =()=>{
+  return (
+    <div className="h-32 w-full bg-slate-900 relative">
+      <svg
+        className="absolute top-0 left-0 w-full h-8"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <pattern
+            id="tetris"
+            width="20"
+            height="20"
+            patternUnits="userSpaceOnUse"
+          >
+            <rect x="0" y="0" width="10" height="10" fill="#0F172A" />
+            <rect x="10" y="0" width="10" height="20" fill="#0F172A" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#tetris)" />
+      </svg>
+    </div>
+  );
+}
+
+export function LargeSpinner() {
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <svg
+        className="text-emerald-600"
+        width="80" // ⬅️ make it large
+        height="80"
+        viewBox="0 0 50 50"
+      >
+        <circle
+          cx="25"
+          cy="25"
+          r="20"
+          fill="none"
+          stroke="currentColor"
+          opacity=".2"
+          strokeWidth="6"
+        />
+        <path
+          d="M25 5a20 20 0 0 1 0 40"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="6"
+          strokeLinecap="round"
+        >
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0 25 25"
+            to="360 25 25"
+            dur="0.8s"
+            repeatCount="indefinite"
+          />
+        </path>
+      </svg>
+    </div>
+  );
+}
+

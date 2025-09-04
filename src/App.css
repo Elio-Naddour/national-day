@@ -51,3 +51,15 @@ body {
   direction: rtl;
   width: 100%;
 }
+
+.generic-button{
+  margin-top: 40px;
+  font-family: 'Frutiger LT Arabic', sans-serif !important;
+  padding: 15px;
+  background-color: #006c35;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 30px;
+  cursor: pointer;
+}

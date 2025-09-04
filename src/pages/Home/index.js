@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './home.css';
-import Pattern from '../../components/patterns/patterns';
-import Header from '../../components/header/header';
+import { ClusterPattern } from '../../components/patterns/patterns';
 
 const HomePage = () => {
   const [name, setName] = useState('');
@@ -17,8 +16,6 @@ const HomePage = () => {
 
   return (
     <div>
-        <Header />
-
         <div className="container">
         <div className="guideline-card">        
             <div className="input-section">
@@ -36,7 +33,7 @@ const HomePage = () => {
             </div>
         </div>
         <div className='pattern-card'>
-            <Pattern />
+            <ClusterPattern />
         </div>
         </div>
     </div>

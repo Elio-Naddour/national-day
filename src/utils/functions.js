@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { jsPDF } from "jspdf";
 import certificateBg from "../public/images/DnaBg.jpeg";
@@ -6,11 +6,13 @@ import ArabicReshaper from 'arabic-reshaper';
 import { FrutigerLTArabic } from "./base64font";
 import {supabase} from '../database/supabaseClient'
 import { v4 as uuidv4 } from "uuid";
+import { LargeSpinner } from "../components/patterns/patterns";
 
-export function Certificate() {
+export function GenerateCertificate({text}) {
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [document, setDocument] = useState(null);
 
-  const generatePdf = async (userName) => {
+  const generatePdf = async (pdfText) => {
     const doc = new jsPDF("p", "mm", "a4");
 
     // Load custom Arabic font
@@ -27,9 +29,9 @@ export function Certificate() {
       // Add Arabic text
       doc.setFontSize(22);
       doc.setTextColor("#fff");
-      const raw = `مُنِحَت إلى: ${userName}`;
+      const raw = pdfText;
       const shaped = ArabicReshaper.convertArabic(raw);
-      doc.text(shaped, 105, 150, { align: "center" });
+      doc.text(shaped, 105, 80, { align: "center" });
 
       // Convert PDF to Blob
       const blob = doc.output("blob");
@@ -40,7 +42,7 @@ export function Certificate() {
 
       const { error, data: uploadRes } = await supabase.storage
         .from("NDpdf")
-        .upload(`${uuidv4()}.pdf`, pdfBlob, {
+        .upload(filePath, pdfBlob, {
           contentType: "application/pdf",
           upsert: true,
         });
@@ -56,30 +58,30 @@ export function Certificate() {
         .getPublicUrl(uploadRes.path);
 
       setPdfUrl(data.publicUrl);
+      setDocument(doc)
 
-      // doc.autoPrint()
-      // doc.output("dataurlnewwindow") // open the pdf in new tab and print
-      // doc.save("certificate.pdf"); // download the pdf
     };
   };
 
+  const print=()=>{
+      document.autoPrint()
+      document.output("dataurlnewwindow") // open the pdf in new tab and print
+  }
+
+  useEffect(()=>{
+    generatePdf(text)
+  },[])
+
   return (
-    <div style={{ textAlign: "center", marginTop: 40 }}>
-      <button onClick={() => generatePdf("إليو ندور")}>
-        Generate & Upload Certificate
-      </button>
+    <div style={{ textAlign: "center" }}>
 
-      {pdfUrl && (
-        <div style={{ marginTop: 20 }}>
-          <h3>📥 Download Link:</h3>
-          <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
-            {pdfUrl}
-          </a>
-
-          <h3 style={{ marginTop: 20 }}>📱 Scan QR:</h3>
+      {pdfUrl ? (
+        <div style={{ display: 'flex', flexDirection:'column',alignItems:'center'}}>
+          <h3>📱 امسح الرمز</h3>
           <QRCodeCanvas value={pdfUrl} size={200} />
+          <button className="generic-button" onClick={print}>افتح للطباعة</button>
         </div>
-      )}
+      ):<div style={{height:'100%',display:'flex',alignItems:'center',justifyContent:'center'}}><LargeSpinner /></div>}
     </div>
   );
 }
