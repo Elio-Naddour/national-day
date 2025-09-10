@@ -13,7 +13,7 @@ export function GenerateCertificate({text}) {
   const [document, setDocument] = useState(null);
 
   const generatePdf = async (pdfText) => {
-    const doc = new jsPDF("p", "mm", "a4");
+    const doc = new jsPDF("p", "mm", "a5");
 
     // Load custom Arabic font
     doc.addFileToVFS("FrutigerLTArabic.ttf", FrutigerLTArabic);
@@ -31,7 +31,7 @@ export function GenerateCertificate({text}) {
       doc.setTextColor("#fff");
       const raw = pdfText;
       const shaped = ArabicReshaper.convertArabic(raw);
-      doc.text(shaped, 105, 80, { align: "center" });
+      doc.text(shaped, 70, 20, { align: "center" });
 
       // Convert PDF to Blob
       const blob = doc.output("blob");
@@ -77,7 +77,7 @@ export function GenerateCertificate({text}) {
 
       {pdfUrl ? (
         <div style={{ display: 'flex', flexDirection:'column',alignItems:'center'}}>
-          <h3>📱 امسح الرمز</h3>
+          <h3>امسح الرمز</h3>
           <QRCodeCanvas value={pdfUrl} size={200} />
           <button className="generic-button" onClick={print}>افتح للطباعة</button>
         </div>

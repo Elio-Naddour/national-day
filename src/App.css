@@ -1,7 +1,7 @@
-@import './public/fonts/font.css';
+@import "./public/fonts/font.css";
 
 .App {
-  font-family: 'Frutiger LT Arabic', sans-serif !important;
+  font-family: "Frutiger LT Arabic", sans-serif !important;
 
   text-align: center;
 }
@@ -42,7 +42,7 @@
 }
 
 body {
-  background: linear-gradient(270deg, #00833e 0%, #008a4a 100%);
+  background: linear-gradient(270deg, #008a4a 0%, #00833e 100%);
   min-height: 100vh;
   /* display: flex; */
   /* justify-content: center; */
@@ -52,9 +52,9 @@ body {
   width: 100%;
 }
 
-.generic-button{
+.generic-button {
   margin-top: 40px;
-  font-family: 'Frutiger LT Arabic', sans-serif !important;
+  font-family: "Frutiger LT Arabic", sans-serif !important;
   padding: 15px;
   background-color: #006c35;
   color: white;

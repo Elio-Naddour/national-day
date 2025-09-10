@@ -32,9 +32,9 @@ const HomePage = () => {
             </form>
             </div>
         </div>
-        <div className='pattern-card'>
+        {/* <div className='pattern-card'>
             <ClusterPattern />
-        </div>
+        </div> */}
         </div>
     </div>
   );

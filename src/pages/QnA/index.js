@@ -1,18 +1,19 @@
 import { useParams } from "react-router-dom";
 import { Certificate, GenerateCertificate } from "../../utils/functions";
 import { QnAData } from "../../database/QnAData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classNames from 'classnames';
 import './QnA.css';
 import { ClusterPattern, TetrisPattern } from "../../components/patterns/patterns";
 
-const qCount = 3;
+const qCount = 5;
 const randomQuestions = QnAData.sort(() => Math.random() - 0.5).slice(0, qCount);
 
 const QnAPage = () => { 
     
       const { name } = useParams();
       const [index,setIndex] = useState(0);
+      const [time,setTime] = useState(10);
       const [selectedAnswer,setSelectedAnswer] = useState(null);
       const [gameEnd,setGameEnd] = useState(false);
       const [score,setScore] = useState({
@@ -25,6 +26,8 @@ const QnAPage = () => {
       const total = qCount;
 
       const onAnswerClick = (answer) => {
+        setTime(10); // reset countdown
+
         setScore((prev) => {
           const updated = { ...prev };
 
@@ -49,13 +52,27 @@ const QnAPage = () => {
         setTimeout(() => {
           setSelectedAnswer(null)
           setIndex(index+1);
+          setTime(10); // reset countdown
           
         }, 1000);
       }
 
+      useEffect(() => {
+        if (time === 0) {
+          // move to next question
+          onAnswerClick('timeOut')
+        }
+
+        const interval = setInterval(() => {
+          setTime((prev) => (prev > 0 ? prev - 1 : 10)); // reset when 0
+        }, 1000);
+
+        return () => clearInterval(interval); // cleanup
+      }, [time, gameEnd, index]);
+
       const renderQuestions = () => {
         if(gameEnd){
-          const resultString = name + '\n\n' + Object.entries(score)
+          const resultString = ',تنوع يعكس غنى وطننا\n\nوهويتنا السعودية تجمعنا' + '\n\n' + ':نتيجة الفحص' + '\n\n' + 'DNA  الوطن' + '\n\n' + name + '\n\n' + Object.entries(score)
             .map(([key, value]) => {
               const percentage = Math.round((value.number * 100) / total); 
               return `%${value.name} : ${percentage}`;
@@ -84,6 +101,7 @@ const QnAPage = () => {
             <div className="question">
               {randomQuestions[index].question}
             </div>
+            {time}
             <div className="answers">
               {randomQuestions[index].answers.map((answer) => (
                 <button className={classNames({'answer':true, 'correct':answer===randomQuestions[index].correctAnswer && selectedAnswer})} disabled={selectedAnswer} onClick={() => onAnswerClick(answer)} key={answer}>{answer}</button>
@@ -94,13 +112,13 @@ const QnAPage = () => {
       }
 
     return <div className="qna-page-container">
-              {!gameEnd && 
+              {/* {!gameEnd && 
                 <div className="patterns-container">
                   <ClusterPattern />
                   <ClusterPattern />
                   <ClusterPattern />
                 </div>
-              }  
+              }   */}
              {renderQuestions()}
             </div>
 }

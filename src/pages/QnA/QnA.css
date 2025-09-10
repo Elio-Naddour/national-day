@@ -17,9 +17,11 @@
   border-radius: 12px;
   /* border: 2px solid white; */
   padding: 20px;
-  width: 80%;
+  /* width: 80%; */
   /* margin: auto; */
+  margin-top: 20px;
   font-size: 40px;
+  color: white;
 }
 
 .question {
@@ -32,10 +34,11 @@
 }
 
 .answers {
-  margin-top: 40px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
 }
 
 .answer {
@@ -44,6 +47,7 @@
   font-size: 40px;
   color: #006c35;
   border-color: white;
+  width: 100%;
 }
 
 .correct {
@@ -62,5 +66,5 @@
   background-color: white;
   width: 80%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }

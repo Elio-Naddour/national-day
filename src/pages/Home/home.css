@@ -1,7 +1,7 @@
 @import '../../public/fonts/font.css';
 
 .container {
-  width: 70%;
+  /* width: 70%; */
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -14,7 +14,9 @@
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   padding: 40px;
-  width: 50%;
+  /* width: 50%; */
+  margin: auto;
+  margin-top: 50px;
   text-align: center;
   position: relative;
   overflow: hidden;
