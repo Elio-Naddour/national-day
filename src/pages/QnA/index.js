@@ -13,6 +13,7 @@ const QnAPage = () => {
     
       const { name } = useParams();
       const [index,setIndex] = useState(0);
+      const [total,setTotal] = useState(0);
       const [time,setTime] = useState(10);
       const [selectedAnswer,setSelectedAnswer] = useState(null);
       const [gameEnd,setGameEnd] = useState(false);
@@ -23,10 +24,14 @@ const QnAPage = () => {
           area4:{name:'الشمالية',number:0},
           area5:{name:'الجنوبية',number:0},
       })
-      const total = qCount;
+
+      useEffect(()=>{
+        return()=>{setTotal(0)}
+      },[])
 
       const onAnswerClick = (answer) => {
         setTime(10); // reset countdown
+        if(answer !== 'timeOut') setTotal((prev)=> prev+=1)
 
         setScore((prev) => {
           const updated = { ...prev };
@@ -53,7 +58,6 @@ const QnAPage = () => {
           setSelectedAnswer(null)
           setIndex(index+1);
           setTime(10); // reset countdown
-          
         }, 1000);
       }
 
@@ -74,7 +78,7 @@ const QnAPage = () => {
         if(gameEnd){
           const resultString = ',تنوع يعكس غنى وطننا\n\nوهويتنا السعودية تجمعنا' + '\n\n' + ':نتيجة الفحص' + '\n\n' + 'DNA  الوطن' + '\n\n' + name + '\n\n' + Object.entries(score)
             .map(([key, value]) => {
-              const percentage = Math.round((value.number * 100) / total); 
+              const percentage = total === 0 ? 0 : Math.round((value.number * 100) / total); 
               return `%${value.name} : ${percentage}`;
             })
             .join("\n\n");
@@ -84,7 +88,7 @@ const QnAPage = () => {
               <div>
                 {name}
                 {Object.entries(score).map(([key, value]) => {
-                  const percentage = Math.round((value.number * 100) / total); 
+                  const percentage = total === 0 ? 0 : Math.round((value.number * 100) / total); 
                   return (
                     <p key={key}>
                       {value.name} : {percentage}%
