@@ -14,9 +14,10 @@ const QnAPage = () => {
       const { name } = useParams();
       const [index,setIndex] = useState(0);
       const [total,setTotal] = useState(0);
-      const [time,setTime] = useState(10);
+      const [time,setTime] = useState(15);
       const [selectedAnswer,setSelectedAnswer] = useState(null);
       const [gameEnd,setGameEnd] = useState(false);
+      const [isShowingAnswer,setIsShowingAnswer]= useState(false);
       const [score,setScore] = useState({
           area1:{name:'الشرقية',number:0},
           area2:{name:'الغربية',number:0},
@@ -30,7 +31,7 @@ const QnAPage = () => {
       },[])
 
       const onAnswerClick = (answer) => {
-        setTime(10); // reset countdown
+        setTime(15); // reset countdown
         if(answer !== 'timeOut') setTotal((prev)=> prev+=1)
 
         setScore((prev) => {
@@ -54,11 +55,14 @@ const QnAPage = () => {
         }
         
         setSelectedAnswer(answer)
+        setIsShowingAnswer(true)
         setTimeout(() => {
           setSelectedAnswer(null)
           setIndex(index+1);
-          setTime(10); // reset countdown
-        }, 1000);
+          setTime(15); // reset countdown
+          setIsShowingAnswer(false)
+
+        }, 4000);
       }
 
       useEffect(() => {
@@ -68,7 +72,8 @@ const QnAPage = () => {
         }
 
         const interval = setInterval(() => {
-          setTime((prev) => (prev > 0 ? prev - 1 : 10)); // reset when 0
+          if(isShowingAnswer) return;
+          setTime((prev) => (prev > 0 ? prev - 1 : 15)); // reset when 0
         }, 1000);
 
         return () => clearInterval(interval); // cleanup
