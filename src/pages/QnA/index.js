@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import './QnA.css';
 import { ClusterPattern, TetrisPattern } from "../../components/patterns/patterns";
 
-const qCount = 5;
+const qCount = 1;
 const randomQuestions = QnAData.sort(() => Math.random() - 0.5).slice(0, qCount);
 
 const QnAPage = () => { 
@@ -19,11 +19,11 @@ const QnAPage = () => {
       const [gameEnd,setGameEnd] = useState(false);
       const [isShowingAnswer,setIsShowingAnswer]= useState(false);
       const [score,setScore] = useState({
-          area1:{name:'الشرقية',number:0},
-          area2:{name:'الغربية',number:0},
-          area3:{name:'الوسطى',number:0},
-          area4:{name:'الشمالية',number:0},
-          area5:{name:'الجنوبية',number:0},
+          east:{name:'الشرقية',number:0},
+          west:{name:'الغربية',number:0},
+          middle:{name:'الوسطى',number:0},
+          north:{name:'الشمالية',number:0},
+          south:{name:'الجنوبية',number:0},
       })
 
       useEffect(()=>{
@@ -81,12 +81,16 @@ const QnAPage = () => {
 
       const renderQuestions = () => {
         if(gameEnd){
-          const resultString = ',تنوع يعكس غنى وطننا\n\nوهويتنا السعودية تجمعنا' + '\n\n' + ':نتيجة الفحص' + '\n\n' + 'DNA  الوطن' + '\n\n' + name + '\n\n' + Object.entries(score)
+          const resultString = Object.entries(score)
             .map(([key, value]) => {
               const percentage = total === 0 ? 0 : Math.round((value.number * 100) / total); 
-              return `%${value.name} : ${percentage}`;
+              return `% ${value.name} | ${percentage}`;
             })
-            .join("\n\n");
+            .join("\n");
+            const rows = Object.entries(score).map(([key, value]) => {
+              const percentage = total === 0 ? 0 : Math.round((value.number * 100) / total);
+              return { name: value.name, percentage };
+            });
 
           return  (
             <div className={'end-game-container'}>     
@@ -96,12 +100,12 @@ const QnAPage = () => {
                   const percentage = total === 0 ? 0 : Math.round((value.number * 100) / total); 
                   return (
                     <p key={key}>
-                      {value.name} : {percentage}%
+                      {value.name} | {percentage}%
                     </p>
                   );
                 })}
               </div> 
-              <GenerateCertificate text={resultString} />
+              <GenerateCertificate text={resultString} rows={rows} />
             </div>
           )
         }
