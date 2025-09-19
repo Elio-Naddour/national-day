@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import './QnA.css';
 import { ClusterPattern, TetrisPattern } from "../../components/patterns/patterns";
 
-const qCount = 1;
+const qCount = 5;
 const randomQuestions = QnAData.sort(() => Math.random() - 0.5).slice(0, qCount);
 
 const QnAPage = () => { 
