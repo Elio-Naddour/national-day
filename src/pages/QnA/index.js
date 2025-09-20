@@ -81,12 +81,6 @@ const QnAPage = () => {
 
       const renderQuestions = () => {
         if(gameEnd){
-          const resultString = Object.entries(score)
-            .map(([key, value]) => {
-              const percentage = total === 0 ? 0 : Math.round((value.number * 100) / total); 
-              return `% ${value.name} | ${percentage}`;
-            })
-            .join("\n");
             const rows = Object.entries(score).map(([key, value]) => {
               const percentage = total === 0 ? 0 : Math.round((value.number * 100) / total);
               return { name: value.name, percentage };
@@ -105,7 +99,7 @@ const QnAPage = () => {
                   );
                 })}
               </div> 
-              <GenerateCertificate text={resultString} rows={rows} />
+              <GenerateCertificate name={name} rows={rows} />
             </div>
           )
         }

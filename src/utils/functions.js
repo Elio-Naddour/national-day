@@ -8,7 +8,7 @@ import { supabase } from "../database/supabaseClient";
 import { v4 as uuidv4 } from "uuid";
 import { LargeSpinner } from "../components/patterns/patterns";
 
-export function GenerateCertificate({ text, rows }) {
+export function GenerateCertificate({ name, rows }) {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [document, setDocument] = useState(null);
 
@@ -26,12 +26,6 @@ export function GenerateCertificate({ text, rows }) {
     img.onload = async () => {
       doc.addImage(img, "JPEG", 0, 0, 148, 210); // A5 size in mm (portrait)
 
-      // // Title text
-      // doc.setFontSize(22);
-      // doc.setTextColor("#fff");
-      // const shapedTitle = ArabicReshaper.convertArabic(text);
-      // doc.text(shapedTitle, 74, 30, { align: "center" }); // centered title
-
       // Region percentages (rows)
       doc.setFontSize(20);
       doc.setTextColor("#fff");
@@ -43,8 +37,11 @@ export function GenerateCertificate({ text, rows }) {
       const sepX = nameX - 35; // separator position
       const percX = sepX - 26; // left-aligned percentage
 
+        const shapedName = ArabicReshaper.convertArabic(name);
+        doc.text(shapedName, sepX, startY, { align: "center" });
+
       rows.forEach((row, i) => {
-        const y = startY + i * lineHeight;
+        const y = startY + (i+1) * lineHeight;
 
         const shapedName = ArabicReshaper.convertArabic(row.name);
 
