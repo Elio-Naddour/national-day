@@ -7,7 +7,7 @@ import './QnA.css';
 import correct from '../../public/SVGs/correct.svg';
 import wrong from '../../public/SVGs/wrong.svg';
 
-const qCount = 5;
+const qCount = 10;
 const randomQuestions = QnAData.sort(() => Math.random() - 0.5).slice(0, qCount);
 
 const QnAPage = () => { 
