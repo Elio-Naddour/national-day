@@ -27,18 +27,21 @@ export function GenerateCertificate({ name, rows }) {
       doc.addImage(img, "JPEG", 0, 0, 148, 210); // A5 size in mm (portrait)
 
       // Region percentages (rows)
-      doc.setFontSize(20);
       doc.setTextColor("#fff");
       const pageWidth = doc.internal.pageSize.getWidth();
       const startY = 110; // vertical starting point
       const lineHeight = 12;
-
+      
       const nameX = pageWidth - 70; // right-aligned names
       const sepX = nameX - 35; // separator position
       const percX = sepX - 26; // left-aligned percentage
+      
+      doc.setFontSize(18);
 
         const shapedName = ArabicReshaper.convertArabic(name);
         doc.text(shapedName, sepX, startY, { align: "center" });
+
+      doc.setFontSize(20);
 
       rows.forEach((row, i) => {
         const y = startY + (i+1) * lineHeight;
