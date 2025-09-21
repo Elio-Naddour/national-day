@@ -4,7 +4,8 @@ import { QnAData } from "../../database/QnAData";
 import { useEffect, useState } from "react";
 import classNames from 'classnames';
 import './QnA.css';
-import { ClusterPattern, TetrisPattern } from "../../components/patterns/patterns";
+import correct from '../../public/SVGs/correct.svg';
+import wrong from '../../public/SVGs/wrong.svg';
 
 const qCount = 5;
 const randomQuestions = QnAData.sort(() => Math.random() - 0.5).slice(0, qCount);
@@ -111,7 +112,19 @@ const QnAPage = () => {
             {time}
             <div className="answers">
               {randomQuestions[index].answers.map((answer) => (
-                <button className={classNames({'answer':true, 'correct':answer===randomQuestions[index].correctAnswer && selectedAnswer})} disabled={selectedAnswer} onClick={() => onAnswerClick(answer)} key={answer}>{answer}</button>
+                <button 
+                  className={classNames({
+                    'answer': true,
+                    'wrong': answer!==randomQuestions[index].correctAnswer && answer === selectedAnswer,
+                    'correct': answer===randomQuestions[index].correctAnswer && selectedAnswer
+                    })}
+                  disabled={selectedAnswer}
+                  onClick={() => onAnswerClick(answer)}
+                  key={answer}>
+                  {answer}
+                  {answer===randomQuestions[index].correctAnswer && selectedAnswer ? <img style={{marginInline:'15px',marginTop:'-5px'}} src={correct} width={25} height={25} /> : <></>}
+                  {answer!==randomQuestions[index].correctAnswer && answer === selectedAnswer ? <img style={{marginInline:'15px',marginTop:'-5px'}} src={wrong} width={25} height={25} /> : <></>}
+                </button>
               ))}
             </div>
           </div>
@@ -119,13 +132,6 @@ const QnAPage = () => {
       }
 
     return <div className="qna-page-container">
-              {/* {!gameEnd && 
-                <div className="patterns-container">
-                  <ClusterPattern />
-                  <ClusterPattern />
-                  <ClusterPattern />
-                </div>
-              }   */}
              {renderQuestions()}
             </div>
 }

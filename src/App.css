@@ -42,7 +42,7 @@
 }
 
 body {
-  background: linear-gradient(270deg, #008a4a 0%, #00833e 100%);
+  background: linear-gradient(270deg, #00833e 0%, #008a4a 100%);
   min-height: 100vh;
   /* display: flex; */
   /* justify-content: center; */
